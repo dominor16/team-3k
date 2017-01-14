@@ -1,8 +1,6 @@
 #element_04 {
-  height:400px;
-  margin:0px 0px 10px 0px;
-  border:10px #a00 solid;
-  background:#f44;
+  height:100vh;
+  margin:0 auto;
 }
 
 #edit_04_result {

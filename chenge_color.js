@@ -19,6 +19,7 @@ function colorGen(){
 	function MouseOverFunc(e){
     prevX = e.clientX;
     prevY = e.clientY;
+		element.style.backgroundColor = colorGen();
 		element_result.value = "マウスオーバー (type:\"" + e.type + "\" X座標:" + prevX + " Y座標:" + prevY + ")\n" + element_result.value;
   }
 
@@ -28,6 +29,7 @@ function colorGen(){
 	function MouseMoveFunc(e){
     nextX = e.clientX;
     nextY = e.clientY;
+		element.style.backgroundColor = colorGen();
 		element_result.value = "マウスカーソルが移動した (type:\"" + e.type + "\" X座標:" + e.clientX + " Y座標:" + e.clientY + "　" + getDistanceFromTwoPoint()　+ " )\n" + element_result.value;
     prevX = e.clientX;
     prevY = e.clientY;
@@ -44,7 +46,6 @@ function colorGen(){
 	// マウスアウト時に実行される関数
 	// ------------------------------------------------------------
 	function MouseOutFunc(e){
-		element.style.backgroundColor = "#f44";
 		element_result.value = "マウスアウト (type:\"" + e.type + "\" clientX:" + e.clientX + " clientY:" + e.clientY + ")\n" + element_result.value;
 	}
 
