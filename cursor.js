@@ -1,8 +1,3 @@
-<!--
-
-function colorGen(){
-    return '#'+Math.floor(Math.random()*16777215).toString(16);
-}
 // 匿名関数内で実行
 (function (){
 
@@ -12,13 +7,17 @@ function colorGen(){
   var prevX,
       prevY,
       nextX,
-      nextY;
+      nextY,
+			total = 0,
+			h = 500;
+
 	// ------------------------------------------------------------
 	// マウスオーバー時に実行される関数
 	// ------------------------------------------------------------
 	function MouseOverFunc(e){
     prevX = e.clientX;
     prevY = e.clientY;
+		element.style.backgroundColor = "#f66";
 		element_result.value = "マウスオーバー (type:\"" + e.type + "\" X座標:" + prevX + " Y座標:" + prevY + ")\n" + element_result.value;
   }
 
@@ -26,9 +25,10 @@ function colorGen(){
 	// マウスカーソルが移動するたびに実行される関数
 	// ------------------------------------------------------------
 	function MouseMoveFunc(e){
+		slide();
     nextX = e.clientX;
     nextY = e.clientY;
-		element_result.value = "マウスカーソルが移動した (type:\"" + e.type + "\" X座標:" + e.clientX + " Y座標:" + e.clientY + "　" + getDistanceFromTwoPoint()　+ " )\n" + element_result.value;
+		element_result.value = "マウスカーソルが移動した (type:\"" + e.type + "\" X座標:" + e.clientX + " Y座標:" + e.clientY + "　" + getDistanceFromTwoPoint()　+ " , " + totalDistance() + " )\n" + element_result.value;
     prevX = e.clientX;
     prevY = e.clientY;
 	}
@@ -36,10 +36,17 @@ function colorGen(){
   // ------------------------------------------------------------
   // マウスカーソルが移動するたびに距離を計算して実行される関数
   // ------------------------------------------------------------
-  var getDistanceFromTwoPoint = function() {
-      return Math.sqrt(Math.pow(prevX - nextX, 2) + Math.pow(prevY - nextY, 2));
+  function getDistanceFromTwoPoint() {
+      return Math.sqrt(Math.pow(prevX - nextX, 2) + Math.pow(prevY - nextY, 2));
   };
 
+	// ------------------------------------------------------------
+  // マウスカーソルの移動距離の合計を計算して実行される関数
+  // ------------------------------------------------------------
+  function totalDistance() {
+     total += getDistanceFromTwoPoint()/10;
+		 return total;
+	}
 	// ------------------------------------------------------------
 	// マウスアウト時に実行される関数
 	// ------------------------------------------------------------
@@ -48,12 +55,34 @@ function colorGen(){
 		element_result.value = "マウスアウト (type:\"" + e.type + "\" clientX:" + e.clientX + " clientY:" + e.clientY + ")\n" + element_result.value;
 	}
 
+	function slide(){
+	  var bar = document.getElementById("bar");
+
+		bar.y.baseVal.value = h - total;
+	  bar.height.baseVal.value =  total;
+		console.log(bar.height.baseVal.value);
+	}
+
+	// ------------------------------------------------------------
+	// マウスが動いていないとき一定時間ごとにbar.height.baseVal.valueの値を減少させる
+	// ------------------------------------------------------------
+	// hoge = bar.height.baseVal.value - 10;
+
+
+  //関数decrease()を1000ミリ秒間隔で呼び出す
+  setInterval( function() {
+		total = bar.y.baseVal.value += 5;
+		total = bar.height.baseVal.value -= 5;
+		console.log(bar.height.baseVal.value);
+	},300);
+
+
+
 	// ------------------------------------------------------------
 	// イベントのリッスンを開始する
 	// ------------------------------------------------------------
 	// イベントリスナーに対応している
 	if(element.addEventListener){
-
 		// マウスオーバー時に実行されるイベント
 		element.addEventListener("mouseover" , MouseOverFunc);
 		// マウスカーソルが移動するたびに実行されるイベント
@@ -74,4 +103,3 @@ function colorGen(){
 	}
 
 })();
-//-->
